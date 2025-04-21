@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>视频编辑平台 - 首页</title>
+    <style>
+        /* 全局变量 */
+        :root {
+            --global-neutral-brand-n-400: #EBEDF0;
+        }
+        
+        /* 全局样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', 'PingFang SC', sans-serif;
+        }
+        
+        body {
+            background-color: #0F0F1A;
+            color: #ffffff;
+        }
+        
+        /* 布局容器 */
+        .container {
+            display: flex;
+            min-height: 100vh;
+            overflow-x: auto;
+        }
+        
+        /* 导航栏样式 */
+        .nav-sidebar {
+            width: auto;
+            background-color: #000000;
+            flex-shrink: 0;
+        }
+        
+        .logo-container {
+            padding: 32px 24px 28px 35px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo-image {
+            height: 36px;
+            width: auto;
+        }
+        
+        .new-project-btn {
+            margin: 12px 24px 32px 24px;
+            padding: 12px 16px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            background: linear-gradient(91.15deg, #211A26 6.02%, #0D0D0D 96.2%);
+            box-shadow: inset 0 0 0 0.6px rgba(207, 196, 221, 0.4), 0px -2px 4px 0px #2F313D inset;
+            border-image-source: linear-gradient(119deg, rgba(92, 68, 123, 0.4) 5.12%, rgba(41, 23, 65, 0.4) 91.61%);
+            width: 240px;
+        }
+        
+        .new-project-btn:hover {
+            background: linear-gradient(91.15deg, #3F3546 6.02%, #181818 96.2%);
+            box-shadow: inset 0 0 0 0.6px rgba(207, 196, 221, 0.4), 0px -2px 4px 0px #2F313D inset;
+            border-image-source: linear-gradient(119deg, rgba(242, 233, 255, 0.40) 5.12%, rgba(127, 116, 144, 0.40) 91.61%);
+        }
+        
+        .new-project-icon {
+            width: 18px;
+            height: 18px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .new-project-text {
+            color: #f6f6f6;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .nav-tabs {
+            margin: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        /* 导航tab样式 */
+        .nav-tab {
+            width: 240px;
+            padding: 12px 14px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            background-color: #000000; /* normal state */
+            transition: background-color 0.3s ease;
+        }
+        
+        .nav-tab:hover {
+            background-color: #161517; /* hover state */
+        }
+        
+        .nav-tab.selected {
+            background-color: #1b191d; /* selected state */
+        }
+        
+        .nav-tab-icon {
+            width: 18px;
+            height: 18px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .nav-tab-icon svg {
+            fill: #ADADAD;
+        }
+        
+        .nav-tab:hover .nav-tab-icon svg {
+            fill: #F6F6F6;
+        }
+        
+        .nav-tab-text {
+            font-family: 'PingFang SC';
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 20px;
+            letter-spacing: 0;
+            vertical-align: middle;
+            flex-grow: 1;
+            color: #adadad;
+        }
+        
+        .nav-tab.selected .nav-tab-text {
+            font-family: 'PingFang SC';
+            font-weight: 500;
+            font-size: 14px;
+            line-height: 20px;
+            letter-spacing: 0;
+            vertical-align: middle;
+            color: #f6f6f6;
+        }
+        
+        .tag {
+            background: linear-gradient(135deg, rgba(117, 112, 147, 0.4) 0%, rgba(117, 112, 147, 0.2) 100%);
+            border: 1px solid rgba(75, 78, 100, 0.6);
+            border-radius: 8px;
+            padding: 4px 6px;
+            font-size: 9px;
+            font-weight: 600;
+            color: #c0c2d0;
+            letter-spacing: 0.8px;
+        }
+        
+        /* 用户账户样式 */
+        .user-account {
+            position: absolute;
+            bottom: 24px;
+            left: 16px;
+            right: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px;
+            border-radius: 8px;
+            background-color: #000000; /* normal state background */
+            transition: background-color 0.3s ease;
+            width: 240px;
+        }
+        
+        .user-account:hover {
+            background-color: #161517; /* hover state background */
+            border-radius: 8px;
+        }
+        
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: #2d2a31;
+            border: 1px solid #404040;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 600;
+            color: #f6f6f6;
+        }
+        
+        .user-info {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .user-name {
+            font-size: 14px;
+            color: #f6f6f6;
+        }
+        
+        .user-email {
+            font-size: 12px;
+            color: #898989;
+        }
+        
+        /* 主内容区域 */
+        .main-content {
+            flex-grow: 1;
+            padding: 32px;
+            max-width: calc(100% - 288px);
+            background-color: #000000;
+            height: 100vh;
+            overflow-y: auto;
+        }
+        
+        /* Banner组件 */
+        .banner {
+            position: relative;
+            height: 240px;
+            border-radius: 12px;
+            margin: 0px 0;
+            overflow: hidden;
+            background: linear-gradient(135deg, #000370 0%, #7852ed 100%);
+            display: flex;
+            align-items: center;
+            padding: 0 60px;
+            min-width: 1200px;
+        }
+        
+        .banner-content {
+            max-width: 50%;
+            z-index: 2;
+            position: relative;
+        }
+        
+        .banner h1 {
+            font-family: 'Funnel Display', sans-serif;
+            font-size: 42px;
+            font-weight: 600;
+            line-height: 52px;
+            margin-bottom: 8px;
+            background: linear-gradient(180deg, rgba(36, 21, 123, 0) 50%, rgba(36, 21, 123, 0.3) 72.22%),
+                       linear-gradient(0deg, #FAFCFF, #FAFCFF);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .banner p {
+            font-family: 'PingFang SC', sans-serif;
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 24px;
+            letter-spacing: 0;
+            vertical-align: middle;
+            margin-bottom: 16px;
+            color: var(--global-neutral-brand-n-400);
+        }
+        
+        .banner-image-left {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: auto;
+            max-height: 240px;
+            z-index: 1;
+            display: flex;
+            justify-content: flex-start;
+        }
+        
+        .banner-image-left img {
+            height: 100%;
+            max-height: 240px;
+            width: auto;
+            object-fit: contain;
+            object-position: left center;
+        }
+        
+        .banner-image-right {
+            position: absolute;
+            top: 0;
+            right: 0;
+            height: 100%;
+            width: auto;
+            max-height: 240px;
+            z-index: 1;
+            display: flex;
+            justify-content: flex-end;
+        }
+        
+        .banner-image-right img {
+            height: 100%;
+            max-height: 240px;
+            width: auto;
+            object-fit: contain;
+            object-position: right center;
+        }
+        
+        .try-button {
+            background-color: transparent;
+            color: #FAFCFF;
+            border: none;
+            padding: 0;
+            font-family: 'Roboto', 'PingFang SC', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            line-height: 28.87px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: opacity 0.3s ease;
+        }
+        
+        .try-button:hover {
+            opacity: 0.8;
+        }
+        
+        .try-button-arrow {
+            display: inline-flex;
+            width: 9px;
+            height: 9px;
+        }
+        
+        .banner-graphics {
+            position: absolute;
+            right: 0;
+            top: 0;
+            height: 100%;
+            width: 50%;
+            z-index: 1;
+        }
+        
+        .banner-circle {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 70%);
+        }
+        
+        .circle1 {
+            width: 240px;
+            height: 240px;
+            right: 120px;
+            top: -80px;
+        }
+        
+        .circle2 {
+            width: 180px;
+            height: 180px;
+            right: 80px;
+            bottom: -60px;
+        }
+        
+        /* 文件列表部分 */
+        .files-section {
+            margin-bottom: 40px;
+        }
+        
+        .section-header {
+            position: sticky;
+            top: 32px;
+            background-color: #000000;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            align-items: center;
+            margin: 52px 0px 32px 0px;
+            min-width: 420px;
+        }
+        
+        .section-header .select-filter,
+        .section-header > div[style] {
+            margin-left: 8px;
+        }
+        
+        .section-title {
+            color: var(--text-text-primary, #F6F6F6);
+            font-family: Inter;
+            font-size: 20px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 30px;
+            letter-spacing: 0.4px;
+        }
+        
+        .select-filter {
+            position: relative;
+            border-radius: 6px;
+            padding: 4px 8px;
+            color: #ffffff;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .select-filter:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .select-filter:after {
+            content: '';
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6' fill='none'%3E%3Cpath d='M1 1L5 5L9 1' stroke='white' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        
+        /* 卡片网格 */
+        .video-grid {
+            overflow-y: auto;
+            max-height: calc(100vh - 32px);
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 24px;
+            min-width: 420px;
+        }
+        
+        /* 视频卡片 */
+        .video-card {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            flex-shrink: 0;
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: #161517;
+        }
+        
+        .video-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        
+        .video-cover {
+            position: relative;
+            width: 100%;
+            height: 180px;
+            background-color: #2A2A42;
+            overflow: hidden;
+        }
+        
+        .overlay {
+            position: absolute;
+            top: 100px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(180deg, rgba(27, 25, 29, 0) 0%, #1B191D 100%);
+            pointer-events: none;
+        }
+        
+        .video-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .duration-badge {
+            position: absolute;
+            right: 8px;
+            bottom: 8px;
+            background-color: rgba(0, 0, 0, 0.6);
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+        
+        .more-button {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+        
+        .more-button:hover {
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+        
+        .more-button-dots {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        
+        .more-button-dots span {
+            display: block;
+            width: 4px;
+            height: 4px;
+            background-color: white;
+            border-radius: 50%;
+        }
+        
+        .video-info {
+            padding: 12px 16px 12px 16px;
+        }
+        
+        .video-title {
+            color: var(--text-text-primary, #F6F6F6);
+            font-family: "PingFang SC";
+            font-size: 14px;
+            margin-bottom: 4px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 20px; /* 142.857% */
+        }
+        
+        .video-meta {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--text-text-tertiary, #898989);
+            font-family: "PingFang SC";
+            font-size: 12px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 16px; /* 133.333% */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <div class="nav-sidebar">
+            <!-- 标志/Logo -->
+            <div class="logo-container">
+                <svg width="146" height="25" viewBox="0 0 146 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g clip-path="url(#clip0_616_63924)">
+                        <path opacity="0.8" d="M1.22791 19.4381L4.73807 22.0006L8.73036 19.4296C10.8239 18.0815 13.4042 18.0815 15.4978 19.4296L19.4901 22.0006L23.0002 19.4381V14.8144L15.3962 9.9179C13.3652 8.60985 10.8629 8.6107 8.83275 9.92046L1.22791 14.8246V19.4381Z" fill="#D1CED5"/>
+                        <g filter="url(#filter0_d_616_63924)">
+                            <path d="M1.00055 4.56291L4.51071 2.00049L8.50301 4.57143C10.5966 5.91953 13.1768 5.91953 15.2704 4.57143L19.2627 2.00049L22.7729 4.56291V9.18668L15.1688 14.0831C13.1379 15.3912 10.6355 15.3904 8.60539 14.0806L1.00055 9.17646V4.56291Z" fill="white"/>
+                        </g>
+                    </g>
+                    <path d="M41.1905 20.28C39.5371 20.28 38.0971 19.94 36.8705 19.26C35.6438 18.5667 34.6905 17.5933 34.0105 16.34C33.3438 15.0733 33.0105 13.6 33.0105 11.92C33.0105 10.2133 33.3438 8.74 34.0105 7.5C34.6905 6.24667 35.6438 5.28 36.8705 4.6C38.0971 3.90667 39.5371 3.56 41.1905 3.56C42.4705 3.56 43.6105 3.78 44.6105 4.22C45.6105 4.64667 46.4305 5.26667 47.0705 6.08C47.7105 6.88 48.1305 7.85333 48.3305 9H45.4705C45.2838 8.04 44.8105 7.3 44.0505 6.78C43.3038 6.26 42.3505 6 41.1905 6C39.5105 6 38.1838 6.52667 37.2105 7.58C36.2505 8.63333 35.7705 10.08 35.7705 11.92C35.7705 13.76 36.2505 15.2067 37.2105 16.26C38.1838 17.3133 39.5105 17.84 41.1905 17.84C42.3505 17.84 43.3038 17.58 44.0505 17.06C44.8105 16.5267 45.2838 15.7867 45.4705 14.84H48.3305C48.1305 15.9733 47.7105 16.9467 47.0705 17.76C46.4305 18.5733 45.6105 19.2 44.6105 19.64C43.6105 20.0667 42.4705 20.28 41.1905 20.28ZM51.4814 24.8V22.62H54.2614L55.3614 19.98L50.0814 8H52.9214L56.7014 16.8H56.8014L60.4414 8H63.1614L58.0414 20L56.9414 22.6C56.6481 23.2933 56.3281 23.8333 55.9814 24.22C55.6481 24.6067 55.0947 24.8 54.3214 24.8H51.4814ZM73.1373 20.24C72.1507 20.24 71.304 20.06 70.5973 19.7C69.8907 19.3267 69.3373 18.7933 68.9373 18.1H68.0973V20H65.2573V17.26H66.6373V3.2H69.3573V9.8H69.4373C69.7973 9.14667 70.3107 8.64667 70.9773 8.3C71.6573 7.94 72.4507 7.76 73.3573 7.76C74.504 7.76 75.484 8.01333 76.2973 8.52C77.124 9.02667 77.7507 9.75333 78.1773 10.7C78.6173 11.6333 78.8373 12.7333 78.8373 14C78.8373 15.2667 78.6107 16.3667 78.1573 17.3C77.7173 18.2333 77.0707 18.96 76.2173 19.48C75.3773 19.9867 74.3507 20.24 73.1373 20.24ZM72.6573 17.9C73.7773 17.9 74.6307 17.5533 75.2173 16.86C75.8173 16.1667 76.1173 15.2133 76.1173 14C76.1173 12.7867 75.8173 11.8333 75.2173 11.14C74.6307 10.4467 73.7773 10.1 72.6573 10.1C71.6573 10.1 70.8573 10.3867 70.2573 10.96C69.6573 11.5333 69.3573 12.3067 69.3573 13.28V14.72C69.3573 15.6933 69.6573 16.4667 70.2573 17.04C70.8573 17.6133 71.6573 17.9 72.6573 17.9ZM87.9248 20.24C86.6582 20.24 85.5515 19.9867 84.6048 19.48C83.6715 18.96 82.9515 18.2267 82.4448 17.28C81.9382 16.3333 81.6848 15.2267 81.6848 13.96C81.6848 12.6933 81.9315 11.6 82.4248 10.68C82.9315 9.74667 83.6448 9.02667 84.5648 8.52C85.4848 8.01333 86.5715 7.76 87.8248 7.76C89.0248 7.76 90.0582 8 90.9248 8.48C91.7915 8.94667 92.4582 9.62 92.9248 10.5C93.4048 11.3667 93.6448 12.4 93.6448 13.6V14.6H84.2848C84.3915 15.6933 84.7582 16.54 85.3848 17.14C86.0115 17.7267 86.8515 18.02 87.9048 18.02C88.6782 18.02 89.3115 17.8733 89.8048 17.58C90.2982 17.2867 90.6382 16.8467 90.8248 16.26H93.5848C93.2915 17.5133 92.6448 18.4933 91.6448 19.2C90.6582 19.8933 89.4182 20.24 87.9248 20.24ZM84.3648 12.7H91.0448C90.9382 11.82 90.6048 11.1467 90.0448 10.68C89.4848 10.2 88.7448 9.96 87.8248 9.96C86.9048 9.96 86.1448 10.2 85.5448 10.68C84.9448 11.1467 84.5515 11.82 84.3648 12.7ZM98.0186 20V10.74H96.6386V8H99.4786V10.3H100.319C100.639 9.51333 101.145 8.91333 101.839 8.5C102.545 8.08667 103.352 7.88 104.259 7.88H105.259V10.22H104.139C103.005 10.22 102.145 10.5467 101.559 11.2C100.985 11.8533 100.699 12.7267 100.699 13.82V20H98.0186ZM113.287 20.24C112.061 20.24 110.987 19.9867 110.067 19.48C109.147 18.96 108.427 18.2333 107.907 17.3C107.401 16.3667 107.147 15.2667 107.147 14C107.147 12.7333 107.401 11.6333 107.907 10.7C108.414 9.76667 109.127 9.04667 110.047 8.54C110.967 8.02 112.047 7.76 113.287 7.76C114.807 7.76 116.067 8.14 117.067 8.9C118.067 9.66 118.714 10.7267 119.007 12.1H116.267C116.067 11.4467 115.714 10.9533 115.207 10.62C114.714 10.2867 114.074 10.12 113.287 10.12C112.234 10.12 111.401 10.46 110.787 11.14C110.174 11.82 109.867 12.7733 109.867 14C109.867 15.2267 110.174 16.18 110.787 16.86C111.401 17.54 112.234 17.88 113.287 17.88C114.941 17.88 115.954 17.1533 116.327 15.7H119.067C118.801 17.1533 118.167 18.2733 117.167 19.06C116.167 19.8467 114.874 20.24 113.287 20.24ZM126.995 20.22C125.395 20.22 124.148 19.7867 123.255 18.92C122.375 18.0533 121.935 16.8733 121.935 15.38V8H124.655V14.84C124.655 15.8267 124.908 16.5733 125.415 17.08C125.922 17.5733 126.675 17.82 127.675 17.82C128.702 17.82 129.495 17.5533 130.055 17.02C130.628 16.4867 130.915 15.74 130.915 14.78V8H133.635V17.26H135.015V20H132.195V18.1H131.355C130.902 18.7933 130.322 19.32 129.615 19.68C128.908 20.04 128.035 20.22 126.995 20.22ZM141.833 20C141.1 20 140.526 19.8133 140.113 19.44C139.713 19.0667 139.513 18.5 139.513 17.74V10.12H137.353V8H139.533V4.4H142.213V8H145.193V10.12H142.233V17.86H145.493V20H141.833Z" fill="url(#paint0_linear_616_63924)"/>
+                    <defs>
+                        <filter id="filter0_d_616_63924" x="-0.500693" y="0.99966" width="24.7748" height="16.0655" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                            <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                            <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                            <feOffset dy="0.500414"/>
+                            <feGaussianBlur stdDeviation="0.750621"/>
+                            <feComposite in2="hardAlpha" operator="out"/>
+                            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0.56335 0 0 0 0 0.804785 0 0 0 0.1 0"/>
+                            <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_616_63924"/>
+                            <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_616_63924" result="shape"/>
+                        </filter>
+                        <linearGradient id="paint0_linear_616_63924" x1="67.8472" y1="5.73069" x2="146" y2="15.1127" gradientUnits="userSpaceOnUse">
+                            <stop stop-color="white"/>
+                            <stop offset="1" stop-color="#9A94A2"/>
+                        </linearGradient>
+                        <clipPath id="clip0_616_63924">
+                            <rect width="24" height="24" fill="white"/>
+                        </clipPath>
+                    </defs>
+                </svg>
+            </div>
+            
+            <!-- 新建项目按钮 -->
+            <div class="new-project-btn">
+                <div class="new-project-icon">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9 3.75V14.25M3.75 9H14.25" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <div class="new-project-text">New project</div>
+            </div>
+            
+            <!-- 导航标签栏 -->
+            <div class="nav-tabs">
+                <div class="nav-tab active">
+                    <div class="nav-tab-icon">
+                        <svg width="18" height="19" viewBox="0 0 18 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9.79524 2.79799L15.4203 8.42299C15.5252 8.52719 15.6085 8.65121 15.6651 8.78785C15.7217 8.9245 15.7506 9.07103 15.75 9.21893L15.75 15.969C15.75 16.1181 15.6907 16.2612 15.5853 16.3667C15.4798 16.4722 15.3367 16.5315 15.1875 16.5315H2.81251C2.66332 16.5315 2.52025 16.4722 2.41476 16.3667C2.30927 16.2612 2.25001 16.1181 2.25001 15.969L2.25001 9.21893C2.24948 9.07103 2.27836 8.9245 2.33498 8.78785C2.39159 8.65121 2.4748 8.52719 2.57977 8.42299L8.20477 2.79799C8.41573 2.58718 8.70176 2.46875 9.00001 2.46875C9.29825 2.46875 9.58428 2.58718 9.79524 2.79799ZM11.3479 15.4065H14.625L14.625 9.21893L9.00001 3.59393L3.37501 9.21893L3.37501 15.4065L10.2399 15.4065L9.89368 13.8428L8.35801 13.0247C8.26707 12.9764 8.19318 12.9011 8.14632 12.8094C8.09945 12.7176 8.08185 12.6137 8.09591 12.5116C8.10996 12.4096 8.15498 12.3142 8.2249 12.2386C8.29482 12.1629 8.38627 12.1105 8.48691 12.0884L10.187 11.7119L11.0051 10.1763C11.0536 10.0853 11.1287 10.0114 11.2205 9.96456C11.3123 9.91769 11.4162 9.9001 11.5183 9.91415C11.6203 9.9282 11.7156 9.97322 11.7913 10.0431C11.867 10.1131 11.9194 10.2045 11.9415 10.3052L12.318 12.0053L13.8536 12.8234C13.945 12.8716 14.0192 12.9471 14.0659 13.0394C14.1126 13.1316 14.1294 13.236 14.1142 13.3383C14.1007 13.4405 14.056 13.5362 13.986 13.612C13.9159 13.6877 13.8241 13.74 13.7232 13.7615L12.0246 14.1362L11.3479 15.4065Z" fill="#ADADAD"/>
+                        </svg>
+                    </div>
+                    <div class="nav-tab-text">Projects</div>
+                </div>
+                
+                <div class="nav-tab">
+                    <div class="nav-tab-icon">
+                        <svg width="18" height="19" viewBox="0 0 18 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9.18773 5.28125H15.1875C15.4858 5.28125 15.772 5.39978 15.983 5.61075C16.1939 5.82173 16.3125 6.10788 16.3125 6.40625V14.3438C16.3122 14.6255 16.2001 14.8955 16.0009 15.0946C15.8017 15.2939 15.5318 15.4059 15.2501 15.4062H2.8125C2.51413 15.4062 2.22798 15.2877 2.017 15.0767C1.80603 14.8658 1.6875 14.5796 1.6875 14.2812V4.71875C1.6875 4.42038 1.80603 4.13423 2.017 3.92325C2.22798 3.71228 2.51413 3.59375 2.8125 3.59375H6.56227C6.80559 3.59435 7.04225 3.67324 7.23727 3.81875L9.18773 5.28125ZM11.9736 14.2812H15.1875V6.40625H9C8.87829 6.40625 8.75987 6.36677 8.6625 6.29375L6.56227 4.71875H2.8125V14.2812H11.0989C11.0857 14.2518 11.0755 14.221 11.0686 14.1891L10.7112 12.5751L9.25329 11.7984C9.16696 11.7525 9.09682 11.6811 9.05232 11.594C9.00783 11.5069 8.99112 11.4082 9.00447 11.3113C9.01781 11.2144 9.06055 11.1239 9.12692 11.0521C9.1933 10.9802 9.28013 10.9305 9.37566 10.9095L10.9897 10.5521L11.7663 9.09426C11.8123 9.00792 11.8837 8.93778 11.9708 8.89329C12.0579 8.84879 12.1565 8.83209 12.2534 8.84543C12.3503 8.85877 12.4408 8.90151 12.5127 8.96789C12.5845 9.03426 12.6343 9.12108 12.6552 9.21662L13.0127 10.8306L14.4705 11.6073C14.5573 11.6531 14.6277 11.7247 14.6719 11.8123C14.7162 11.8998 14.7323 11.999 14.7178 12.096C14.7051 12.1931 14.6626 12.2839 14.5961 12.3559C14.5296 12.4278 14.4425 12.4774 14.3467 12.4978L12.7341 12.8536L11.9736 14.2812Z" fill="#ADADAD"/>
+                        </svg>
+                    </div>
+                    <div class="nav-tab-text">Material Organization</div>
+                </div>
+                
+                <div class="nav-tab">
+                    <div class="nav-tab-icon">
+                        <svg width="18" height="19" viewBox="0 0 18 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3.43122 3.81885C3.36909 3.81885 3.31872 3.86921 3.31872 3.93135V7.64385C3.31872 7.70598 3.36909 7.75634 3.43122 7.75634H7.14372C7.20586 7.75634 7.25622 7.70598 7.25622 7.64385V3.93135C7.25622 3.86921 7.20586 3.81885 7.14372 3.81885H3.43122ZM2.19373 3.93135C2.19373 3.2479 2.74778 2.69385 3.43122 2.69385H7.14372C7.82717 2.69385 8.38122 3.2479 8.38122 3.93135V7.64385C8.38122 8.32731 7.82717 8.88134 7.14372 8.88134H3.43122C2.74778 8.88134 2.19373 8.32731 2.19373 7.64385V3.93135ZM3.43122 11.2438C3.36909 11.2438 3.31872 11.2942 3.31872 11.3563V15.0688C3.31872 15.1309 3.36909 15.1813 3.43122 15.1813H7.14372C7.20586 15.1813 7.25622 15.1309 7.25622 15.0688V11.3563C7.25622 11.2942 7.20586 11.2438 7.14372 11.2438H3.43122ZM2.19373 11.3563C2.19373 10.6729 2.74778 10.1188 3.43122 10.1188H7.14372C7.82717 10.1188 8.38122 10.6729 8.38122 11.3563V15.0688C8.38122 15.7523 7.82717 16.3063 7.14372 16.3063H3.43122C2.74778 16.3063 2.19373 15.7523 2.19373 15.0688V11.3563ZM14.5688 3.81885C14.6309 3.81885 14.6813 3.86921 14.6813 3.93135V7.64385C14.6813 7.70598 14.6309 7.75634 14.5688 7.75634H10.8563C10.7941 7.75634 10.7438 7.70598 10.7438 7.64385V3.93135C10.7438 3.86921 10.7941 3.81885 10.8563 3.81885H14.5688ZM10.8563 2.69385C10.1728 2.69385 9.61877 3.2479 9.61877 3.93135V7.64385C9.61877 8.32731 10.1728 8.88134 10.8563 8.88134H14.5688C15.2522 8.88134 15.8063 8.32731 15.8063 7.64385V3.93135C15.8063 3.2479 15.2522 2.69385 14.5688 2.69385H10.8563ZM15.8004 13.4775C15.7859 13.5888 15.7377 13.6927 15.6622 13.7752C15.5867 13.8577 15.4878 13.9145 15.379 13.9379L13.5484 14.3456L12.6667 16.0161C12.6145 16.115 12.5335 16.1954 12.4347 16.2464C12.3358 16.2973 12.2238 16.3165 12.1138 16.3012C12.0038 16.286 11.9011 16.2369 11.8195 16.1609C11.7379 16.0848 11.6814 15.9854 11.6577 15.8759L11.2519 14.0264L9.59693 13.1365C9.49893 13.0838 9.41931 13.002 9.36879 12.9022C9.31828 12.8024 9.29931 12.6893 9.31447 12.5783C9.32961 12.4673 9.37813 12.3636 9.45348 12.2813C9.52884 12.1989 9.62739 12.1419 9.73585 12.1179L11.5681 11.7084L12.4497 10.0378C12.5019 9.9389 12.5829 9.85853 12.6818 9.80755C12.7807 9.75656 12.8928 9.73741 13.0028 9.7527C13.1128 9.76799 13.2155 9.81696 13.2971 9.89302C13.3786 9.96909 13.4351 10.0686 13.4589 10.178L13.8646 12.0275L15.5196 12.9174C15.6181 12.9699 15.6979 13.052 15.7483 13.1524C15.7986 13.2526 15.8169 13.3663 15.8004 13.4775Z" fill="#ADADAD"/>
+                        </svg>
+                    </div>
+                    <div class="nav-tab-text">Brand Kit</div>
+                </div>
+            </div>
+            
+            <!-- 用户账户 -->
+            <div class="user-account">
+                <div class="user-avatar">X</div>
+                <div class="user-info">
+                    <div class="user-name">Mine</div>
+                    <div class="user-email">182761133@gmail.com</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 主内容区域 -->
+        <div class="main-content">
+            <!-- 首页/layout -->
+            <div class="layout">
+                <!-- 首页/banner -->
+                <div class="banner">
+                    <div class="banner-content">
+                        <h1>Create New Project</h1>
+                        <p>CyberCut can add stylish captions, B-roll, stickers, sound effects, or transitions to boost you Videos.</p>
+                        <button class="try-button">
+                            Try it now
+                            <span class="try-button-arrow">
+                                <svg width="9" height="9" viewBox="0 0 9 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M1.5 7.5L7.5 1.5M7.5 1.5H1.5M7.5 1.5V7.5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </span>
+                        </button>
+                    </div>
+                    <div class="banner-image-left">
+                        <img src="banner/pic1.svg" alt="Banner decoration">
+                    </div>
+                    <div class="banner-image-right">
+                        <img src="banner/pic2.svg" alt="Banner circles">
+                    </div>
+                </div>
+                
+                <!-- 首页/文件列表 -->
+                <div class="files-section">
+                    <div class="section-header">
+                        <h2 class="section-title">Recent Projects</h2>
+                        <div class="centered-elements" style="display: flex; justify-content: center; align-items: center; gap: 8px;">
+                            <div class="select-filter">
+                                <span style="color: #898989; font-family: Inter; font-size: 14px; font-style: normal;">Type :</span>
+                                <span style="color: #F6F6F6; font-family: Inter; font-size: 14px; font-style: normal;">All</span>
+                            </div>
+                            <div style="width: 1px; height: 12px; border-radius: 2px; background: var(--stroke-color-stroke-border, #2E2E2E);"></div>
+                            <div class="select-filter">
+                                <span style="color: #898989; font-family: Inter; font-size: 14px; font-style: normal;">Status :</span>
+                                <span style="color: #F6F6F6; font-family: Inter; font-size: 14px; font-style: normal;">All</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="video-grid">
+                        <!-- card/视频文件 x 6 -->
+                        <div class="video-card">
+                            <div class="video-cover">
+                                <div class="overlay"></div>
+                                <img src="https://images.unsplash.com/photo-1536240478700-b869070f9279?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Video thumbnail">
+                                <div class="duration-badge">00:07</div>
+                            </div>
+                            <div class="video-info">
+                                <div class="video-title">Project Name</div>
+                                <div class="video-meta">
+                                    <span>2 hours ago</span>
+                                    <span style="width: 2px; height: 2px; border-radius: 4px; background: var(--fill-fill-disable, #646464); display: inline-block; margin: 0 4px;"></span>
+                                    <span>3 Recordings</span>
+                                </div>
+                            </div>
+                        </div>
+                    
+                        <div class="video-card">
+                            <div class="video-cover">
+                                <div class="overlay"></div>
+                                <img src="https://images.unsplash.com/photo-1536240478700-b869070f9279?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Video thumbnail">
+                                <div class="duration-badge">00:07</div>
+                            </div>
+                            <div class="video-info">
+                                <div class="video-title">Project Name</div>
+                                <div class="video-meta">
+                                    <span>2 hours ago</span>
+                                    <span style="width: 2px; height: 2px; border-radius: 4px; background: var(--fill-fill-disable, #646464); display: inline-block; margin: 0 4px;"></span>
+                                    <span>3 Recordings</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="video-card">
+                            <div class="video-cover">
+                                <div class="overlay"></div>
+                                <img src="https://images.unsplash.com/photo-1536240478700-b869070f9279?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Video thumbnail">
+                                <div class="duration-badge">00:07</div>
+                            </div>
+                            <div class="video-info">
+                                <div class="video-title">Project Name</div>
+                                <div class="video-meta">
+                                    <span>2 hours ago</span>
+                                    <span style="width: 2px; height: 2px; border-radius: 4px; background: var(--fill-fill-disable, #646464); display: inline-block; margin: 0 4px;"></span>
+                                    <span>3 Recordings</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="video-card">
+                            <div class="video-cover">
+                                <div class="overlay"></div>
+                                <img src="https://images.unsplash.com/photo-1536240478700-b869070f9279?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Video thumbnail">
+                                <div class="duration-badge">00:07</div>
+                            </div>
+                            <div class="video-info">
+                                <div class="video-title">Project Name</div>
+                                <div class="video-meta">
+                                    <span>2 hours ago</span>
+                                    <span style="width: 2px; height: 2px; border-radius: 4px; background: var(--fill-fill-disable, #646464); display: inline-block; margin: 0 4px;"></span>
+                                    <span>3 Recordings</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="video-card">
+                            <div class="video-cover">
+                                <div class="overlay"></div>
+                                <img src="https://images.unsplash.com/photo-1536240478700-b869070f9279?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Video thumbnail">
+                                <div class="duration-badge">00:07</div>
+                            </div>
+                            <div class="video-info">
+                                <div class="video-title">Project Name</div>
+                                <div class="video-meta">
+                                    <span>2 hours ago</span>
+                                    <span style="width: 2px; height: 2px; border-radius: 4px; background: var(--fill-fill-disable, #646464); display: inline-block; margin: 0 4px;"></span>
+                                    <span>3 Recordings</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="video-card">
+                            <div class="video-cover">
+                                <div class="overlay"></div>
+                                <img src="https://images.unsplash.com/photo-1536240478700-b869070f9279?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Video thumbnail">
+                                <div class="duration-badge">00:07</div>
+                            </div>
+                            <div class="video-info">
+                                <div class="video-title">Project Name</div>
+                                <div class="video-meta">
+                                    <span>2 hours ago</span>
+                                    <span style="width: 2px; height: 2px; border-radius: 4px; background: var(--fill-fill-disable, #646464); display: inline-block; margin: 0 4px;"></span>
+                                    <span>3 Recordings</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+    document.querySelectorAll('.nav-tab').forEach(tab => {
+        tab.addEventListener('click', function() {
+            // 取消所有tab的选中状态
+            document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('selected'));
+            // 为当前点击的tab添加选中状态
+            this.classList.add('selected');
+        });
+    });
+
+    window.addEventListener('scroll', function() {
+        const sectionHeader = document.querySelector('.section-header');
+        const videoGrid = document.querySelector('.video-grid');
+        const offset = sectionHeader.getBoundingClientRect().top;
+
+        if (offset <= 32) {
+            sectionHeader.style.position = 'fixed';
+            sectionHeader.style.top = '32px';
+            videoGrid.style.maxHeight = `calc(100vh - 32px - ${sectionHeader.offsetHeight}px)`;
+        } else {
+            sectionHeader.style.position = 'static';
+            videoGrid.style.maxHeight = 'auto';
+        }
+    });
+    </script>
+</body>
+</html>
